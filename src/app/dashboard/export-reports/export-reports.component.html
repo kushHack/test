@@ -1,0 +1,54 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="form-container">
+        <div class="section">MRI DATA</div>
+        <form [formGroup]="mriForm">
+            <ng-container *ngFor="let form of form_fields">
+                <div [ngClass]="{'invalid':mriForm.get(form.control_name)?.touched && mriForm.get(form.control_name)?.invalid}"
+                    class="form-field">
+                    <label class="form-label required">{{form.label}}</label>
+                    <select class="input-field" [formControlName]="form.control_name"
+                        (change)="onChange(form.control_name, $event)">
+                        <option value="">--Select--</option>
+                        <ng-container *ngFor="let option of form.options">
+                            <option [value]="option.value">{{option.viewValue}}</option>
+                        </ng-container>
+                    </select>
+                    <div *ngIf="mriForm.get(form.control_name)?.touched && mriForm.get(form.control_name)?.invalid">
+                        <div class="warning" *ngIf="mriForm.get(form.control_name)?.errors['required']">
+                            * Field is required
+                        </div>
+                    </div>
+                    <i *ngIf="form.tip" class="bi bi-info-circle icon-drop" [attr.tool-tip]="form.tip"></i>
+                </div>
+            </ng-container>
+        </form>
+        <div class="reminder-email position-button">
+            <button (click)="onSubmit(mriForm.value)">Download MRI Data</button>
+        </div>
+        <br>
+        <div class="section">SUMMARY REPORTS</div>
+        <form [formGroup]="reportForm" class="report-form">
+            <div class="form-field">
+                <label class="form-label required">Select Type</label>
+                <select class="input-field" formControlName="fileType">
+                    <option value="">--Select--</option>
+                    <option value="actual-budget">Actual vs Budget</option>
+                    <option value="actual-forecast">Actual vs Forecast</option>
+                    <!-- <option value="budget-forecast">Budget vs Forecast</option> -->
+                </select>
+            </div>
+            <div class="form-field">
+                <label class="form-label required">Select Summary Type</label>
+                <select class="input-field" formControlName="summaryType">
+                    <option value="">--Select--</option>
+                    <option value="2">Last Two Year</option>
+                    <option value="4">Last Four Year</option>
+                </select>
+            </div>
+        </form>
+        <div class="reminder-email position-button">
+            <button (click)="downloadSummaryReport(reportForm.value)">Download Report</button>
+        </div>
+    </div>
+</div>

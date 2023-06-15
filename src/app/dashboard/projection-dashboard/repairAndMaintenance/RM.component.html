@@ -1,0 +1,153 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="toggle-forecast">
+        <div class="back-button">
+            <i class="bi bi-arrow-left-circle" (click)="navigate('total-expense')"></i>
+        </div>
+        <div class="tab" (click)="changeDashboadType('combined')" [ngClass]="{'active':dashboardType==='combined'}">
+            Portfolio
+        </div>
+        <div class="tab" (click)="changeDashboadType('individual')" [ngClass]="{'active':dashboardType==='individual'}">
+            Community
+        </div>
+        <select class="tab input-field" (change)="changeForecastYear($event)">
+            <ng-container *ngFor="let year of years; let i=index">
+                <option [value]="year" [selected]="selectedYear === year">{{year}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" *ngIf="dashboardType==='individual'" (change)="changeForecast($event)">
+            <ng-container *ngFor="let community of communities; let i=index">
+                <option [value]="i">{{community.communityName}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" (change)="changeForecastVersion($event)">
+            <ng-container *ngFor="let version of versions">
+                <option [value]="version" [selected]="selectedVersion === version">v{{version}}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <app-summary title="Repair And Maintenance" [summary]="summary"></app-summary>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="1" [setIndex]="0" title="R/M-Appliances"
+                    [chartData]="chartData.rmAppliances">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="2" [setIndex]="0" title="R/M-Garage/Carport"
+                    [chartData]="chartData.rmGarageCarport">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="3" [setIndex]="0" title="R/M-Cleaning Supplies"
+                    [chartData]="chartData.rmCleaningSupplies">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="4" [setIndex]="0" title="R/M-Common Area"
+                    [chartData]="chartData.rmCommonArea">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="5" [setIndex]="0" title="R/M-Electrical"
+                    [chartData]="chartData.rmElectrical">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="6" [setIndex]="0" title="R/M-Elevator Repair"
+                    [chartData]="chartData.rmElevatorRepair">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="7" [setIndex]="0" title="R/M-Equipment Maintenance"
+                    [chartData]="chartData.rmEquipmentMaintenance">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="8" [setIndex]="0" title="R/M-Exterminating"
+                    [chartData]="chartData.rmExterminating">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="9" [setIndex]="0" title="R/M-FireEquip/Generator"
+                    [chartData]="chartData.rmFireEquipmentGenerator">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="10" [setIndex]="0" title="R/M-FitnessCenter"
+                    [chartData]="chartData.rmFitnessCenter">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="11" [setIndex]="0" title="R/M-HVAC Repair"
+                    [chartData]="chartData.rmHVACRepair">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="12" [setIndex]="0" title="R/M-Lights/Lamps/Ballas"
+                    [chartData]="chartData.rmLightsLampsBallas">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="13" [setIndex]="0" title="R/M-PaintingInterior"
+                    [chartData]="chartData.rmPaintingInterior">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="14" [setIndex]="0" title="R/M-ParkingLot"
+                    [chartData]="chartData.rmParkingLot">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="15" [setIndex]="0" title="R/M-Plumbing"
+                    [chartData]="chartData.rmPlumbing">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="16" [setIndex]="0" title="R/M-Pool/Spa/Jacuzzi"
+                    [chartData]="chartData.rmPoolSpaJacuzzi">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="17" [setIndex]="0" title="R/M-FireSprinkler"
+                    [chartData]="chartData.rmFireSprinkler">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="18" [setIndex]="0" title="R/M-Tools/Equipment"
+                    [chartData]="chartData.rmToolsEquipment">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="19" [setIndex]="0" title="R/M-Uniforms&Other"
+                    [chartData]="chartData.rmUniformOther">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="20" [setIndex]="0" title="R/M-Window/Screen"
+                    [chartData]="chartData.rmWindowScreen">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

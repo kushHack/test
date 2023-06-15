@@ -1,0 +1,194 @@
+<breadcrum [heading]="heading"></breadcrum>
+<app-confirmation *ngIf="active$ | async"  (confirm)="finalize()"></app-confirmation >
+<div class="main-container">
+    <div class="no-data-found" *ngIf="userRole==='RA' && !table.dataRows.length">
+        <a>No Workflow Found Please Create One</a>
+        <br>
+        <div class="button-inside" routerLink="/dashboard/workflow/initiate-workflow">Click Here</div>
+    </div>
+    <div class="no-data-found" *ngIf="userRole==='RPM' && !table.dataRows.length">
+        <a>No Workflow Assigned to You <br> Please Contact Admin</a>
+    </div>
+    <div class="table-container" *ngIf="table.dataRows.length">
+<div class="nav-tab-main">
+    <div class="nav-tab-inner">
+        <ng-container *ngFor="let tab of navTabs; let i=index">
+            <a class="nav-tab-text" [ngClass]="tab.class" (click)="toggleTabs(i)">{{tab.title}}</a>
+        </ng-container>
+    </div>
+</div>
+            <div class="note-table">
+            <a *ngIf="userRole==='RPM'">Note: You can Start only one workflow at a time.</a>
+            <a *ngIf="userRole==='RA'">Note: You can Review only one workflow at a time.</a>
+        </div>
+        <table *ngIf="selectedIndex===1" @fadeInOut>
+            <thead>
+                <tr class="heading-row">
+                    <!-- <th *ngIf="userRole==='RA'"><input class="checkbox" type="checkbox" [checked]="mainCheck" (click)="selectAll($event)"></th> -->
+                    <th class="heading-element">#</th>
+                    <ng-container *ngFor="let heading of table_headings">
+                        <th class="heading-element">{{heading}}
+                        </th>
+                    </ng-container>
+                    <th class="heading-element">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let row of table.dataRows;let i=index">
+                    <tr class="data-row"
+                        [ngClass]="{'pending-review':row.status!='pending_review' && userRole==='RA', 'rejected':row.status==='admin_rejected'}">
+                        <!-- <td class="row-element background" *ngIf="userRole==='RA'">
+                            <input class="checkbox" type="checkbox" [checked]="row.class" [disabled]="row.status==='admin_approved'" (click)="selectRows($event,i)">
+                        </td> -->
+                        <td class="row-element background">
+                            {{i+1}}
+                        </td>
+                        <td class="community-name row-element background">
+                            {{row.communityName}}
+                            <a class="active-text" *ngIf="row.status==='admin_review' && row.review === userEmail">(ACTIVE)</a>
+                        </td>
+                        <td class="row-element">
+                            {{row.community}}
+                        </td>
+                        <td class="row-element" *ngIf="userRole==='RA'">
+                            {{row.rpmName}}
+                        </td>
+                        <td class="row-element">
+                            {{ row.createdAt | date: 'MM-dd-yyyy' }}
+                        </td>
+                        <td class="row-element">
+                            {{ endDateCalc(row.createdAt) | date:'MM-dd-yyyy' }}
+                        </td>
+                        <td class="row-element">
+                            v{{row.version}}
+                        </td>
+                        <td class="row-element">
+                            <a *ngIf="row.status==='workflow_initiated'">Workflow Initiated</a>
+                            <a *ngIf="row.status==='rpm_input'">RPM Input</a>
+                            <a *ngIf="row.status==='pending_review'">Pending Review</a>
+                            <a *ngIf="row.status==='admin_review'">Admin Review</a>
+                            <a *ngIf="row.status==='admin_approved'">Admin Approved</a>
+                            <a *ngIf="row.status==='admin_rejected'">Admin Rejected</a>
+                        </td>
+                        <td class="row-element ">
+                            <div class="icon-row">
+
+                                <a *ngIf="row.status==='pending_review' && userRole==='RA'" class="button-green action-button"
+                                    (click)="reviewWorkflow(row)">
+                                    <span class="material-symbols-outlined">
+                                        plagiarism
+                                    </span>
+                                </a>
+                                <a *ngIf="row.status==='admin_review' && userRole==='RA' && row.review === userEmail"
+                                    class="button-green action-button" (click)="approveWorkflow(row)"><i class="bi bi-check-lg"></i></a>
+                                <a *ngIf="row.status==='workflow_initiated' && userRole==='RA'" class="action-button button-yellow"
+                                    (click)="sendMail(row)"><i class="bi bi-bell-fill"></i></a>
+                                <a *ngIf="row.status==='admin_rejected' && userRole==='RA'" class="action-button button-yellow"
+                                    (click)="sendMail(row)"><i class="bi bi-bell-fill"></i></a>
+
+                                <a *ngIf="row.status==='pending_review' && userRole==='RPM'" class="action-button button-yellow"
+                                    (click)="sendMail(row)"><i class="bi bi-bell-fill"></i></a>
+                                <a *ngIf="row.status==='workflow_initiated' && userRole==='RPM'" class="button-green action-button"
+                                    (click)="startWorkflow(row)"><i class="bi bi-play-fill"></i></a>
+                                <a *ngIf="row.status==='admin_rejected' && userRole==='RPM'" class="button-green action-button"
+                                    (click)="startWorkflow(row)"><i class="bi bi-play-fill"></i></a>
+                                <a *ngIf="row.status==='rpm_input' && userRole==='RPM'" class="action-button button-yellow"
+                                    (click)="sendForReview(row)">
+                                    <i class="bi bi-send-fill"></i>
+                                </a>
+                                <a class="action-button" (click)="openConfirmation(row)" *ngIf="row.status==='admin_approved' && row.isFinal !== true">
+                                    <i class="bi bi-flag-fill"></i>
+                                </a>
+                                <span class="final-indi" *ngIf="row.status==='admin_approved' && row.isFinal === true"><b>Final</b></span>
+                            </div>
+                        </td>
+                        </tr>
+                        </ng-container>
+                        </tbody>
+                        </table>
+                        <div class="no-data-found" *ngIf="!finalWorkflows.length && selectedIndex===2">
+                            <a>No workflow finalized</a>
+                        </div>
+                        <table *ngIf="selectedIndex===2 && finalWorkflows.length" @fadeInOut>
+                            <thead>
+                                <tr class="heading-row">
+                                    <!-- <th *ngIf="userRole==='RA'"><input class="checkbox" type="checkbox" [checked]="mainCheck" (click)="selectAll($event)"></th> -->
+                                    <th class="heading-element">#</th>
+                                    <ng-container *ngFor="let heading of table_headings">
+                                        <th class="heading-element">{{heading}}
+                                        </th>
+                                    </ng-container>
+                                    <th class="heading-element">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let row of finalWorkflows;let i=index">
+                                    <tr class="data-row"
+                                        [ngClass]="{'pending-review':row.status!='pending_review' && userRole==='RA', 'rejected':row.status==='admin_rejected'}">
+                                        <!-- <td class="row-element background" *ngIf="userRole==='RA'">
+                                                    <input class="checkbox" type="checkbox" [checked]="row.class" [disabled]="row.status==='admin_approved'" (click)="selectRows($event,i)">
+                                                </td> -->
+                                        <td class="row-element background">
+                                            {{i+1}}
+                                        </td>
+                                        <td class="community-name row-element background">
+                                            {{row.communityName}}
+                                            <a class="active-text" *ngIf="row.status==='admin_review' && row.review === userEmail">(ACTIVE)</a>
+                                        </td>
+                        <td class="row-element">
+                            {{row.community}}
+                            </td>
+                            <td class="row-element" *ngIf="userRole==='RA'">
+                                {{row.rpmName}}
+                            </td>
+                            <td class="row-element">
+                                {{ row.createdAt | date: 'MM-dd-yyyy' }}
+                            </td>
+                            <td class="row-element">
+                                {{ endDateCalc(row.createdAt) | date:'MM-dd-yyyy' }}
+                            </td>
+                            <td class="row-element">
+                                v{{row.version}}
+                            </td>
+                            <td class="row-element">
+                                <a *ngIf="row.status==='workflow_initiated'">Workflow Initiated</a>
+                                <a *ngIf="row.status==='rpm_input'">RPM Input</a>
+                                <a *ngIf="row.status==='pending_review'">Pending Review</a>
+                                <a *ngIf="row.status==='admin_review'">Admin Review</a>
+                                <a *ngIf="row.status==='admin_approved'">Admin Approved</a>
+                                <a *ngIf="row.status==='admin_rejected'">Admin Rejected</a>
+                            </td>
+                            <td class="row-element ">
+                                <div class="icon-row">
+                                    <a *ngIf="row.status==='pending_review' && userRole==='RA'" class="button-green action-button"
+                                        (click)="reviewWorkflow(row)">
+                                        <span class="material-symbols-outlined">
+                                            plagiarism
+                                        </span>
+                                    </a>
+                                    <a *ngIf="row.status==='admin_review' && userRole==='RA' && row.review === userEmail"
+                                        class="button-green action-button" (click)="approveWorkflow(row)"><i class="bi bi-check-lg"></i></a>
+                                    <a *ngIf="row.status==='workflow_initiated' && userRole==='RA'" class="action-button button-yellow"
+                                        (click)="sendMail(row)"><i class="bi bi-bell-fill"></i></a>
+                                    <a *ngIf="row.status==='admin_rejected' && userRole==='RA'" class="action-button button-yellow"
+                                        (click)="sendMail(row)"><i class="bi bi-bell-fill"></i></a>
+
+                            <a *ngIf="row.status==='pending_review' && userRole==='RPM'" class="action-button button-yellow"
+                                (click)="sendMail(row)"><i class="bi bi-bell-fill"></i></a>
+                            <a *ngIf="row.status==='workflow_initiated' && userRole==='RPM'" class="button-green action-button"
+                                (click)="startWorkflow(row)"><i class="bi bi-play-fill"></i></a>
+                            <a *ngIf="row.status==='admin_rejected' && userRole==='RPM'" class="button-green action-button"
+                                (click)="startWorkflow(row)"><i class="bi bi-play-fill"></i></a>
+                            <a *ngIf="row.status==='rpm_input' && userRole==='RPM'" class="action-button button-yellow"
+                                (click)="sendForReview(row)">
+                                <i class="bi bi-send-fill"></i>
+                            </a>
+                            <span class="final-indi" *ngIf="row.status==='admin_approved' && row.isFinal === true"><b>Final</b></span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

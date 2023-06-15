@@ -1,0 +1,34 @@
+<div class="summary-data">
+    <div class="block">
+        <div class="side budgeted"></div>
+        <div class="main">
+            <div class="title">{{title}}</div>
+            <div class="type">{{type1}}</div>
+            <div class="number">$ {{getNumber(summary.budget)}}</div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="side forecast"></div>
+        <div class="main">
+            <div class="title">{{title}}</div>
+            <div class="type">{{type2}}</div>
+            <div class="number">$ {{getNumber(summary.forecast)}}</div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="side variance"></div>
+        <div class="main">
+            <div class="title">{{title}}</div>
+            <div class="type">Variance</div>
+            <div class="number">$ {{getNumber(summary.variance)}}</div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="side change"></div>
+        <div class="main">
+            <div class="title">{{title}}</div>
+            <div class="type">% Change</div>
+            <div class="number">{{getNumber(summary.change)}} %</div>
+        </div>
+    </div>
+</div>

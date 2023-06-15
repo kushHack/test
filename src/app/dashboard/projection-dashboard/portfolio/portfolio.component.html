@@ -1,0 +1,82 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="no-data-found" *ngIf="!workflows.length">
+    <a>No Projection available at the given time</a>
+</div>
+<div class="main-container" *ngIf="workflows.length">
+    <div class="toggle-forecast">
+        <div class="tab" (click)="changeDashboadType('combined')" [ngClass]="{'active':dashboardType==='combined'}">
+            Portfolio
+        </div>
+        <div class="tab" (click)="changeDashboadType('individual')" [ngClass]="{'active':dashboardType==='individual'}">
+            Community
+        </div>
+        <select class="tab input-field" (change)="changeForecastYear($event)">
+            <ng-container *ngFor="let year of years; let i=index">
+                <option [value]="year" [selected]="selectedYear === year">{{year}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" *ngIf="dashboardType==='individual'" (change)="changeForecastCommunity($event)">
+            <ng-container *ngFor="let community of communities; let i=index">
+                <option [value]="i">{{community.communityName}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" (change)="changeForecastVersion($event)">
+            <ng-container *ngFor="let version of versions">
+                <option [value]="version" [selected]="selectedVersion === version">v{{version}}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <div class="section">
+            Total Income
+            <div class="expand-btn" (click)="navigate('total-income')">
+                See More
+                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-chevron-right second"></i>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="1" [setIndex]="0" title="Actual vs Budget" [dataSet]="0"
+                    [chartData]="{set1:chartData.revenue.actual,set2:chartData.revenue.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="2" [setIndex]="0" title="Actual vs Forecast" [dataSet]="0"
+                    [chartData]="{set1:chartData.revenue.actual,set2:chartData.revenue.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="3" [setIndex]="0" title="Budget vs Forecast" [dataSet]="0"
+                    [chartData]="{set1:chartData.revenue.budget,set2:chartData.revenue.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <div class="section">
+            Total Expenses
+            <div class="expand-btn" (click)="navigate('total-expense')">
+                See More
+                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-chevron-right second"></i>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="4" [setIndex]="1" title="Actual vs Budget" [dataSet]="1"
+                    [chartData]="{set1:chartData.expense.actual,set2:chartData.expense.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="5" [setIndex]="1" title="Actual vs Forecast" [dataSet]="1"
+                    [chartData]="{set1:chartData.expense.actual,set2:chartData.expense.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="6" [setIndex]="1" title="Budget vs Forecast" [dataSet]="1"
+                    [chartData]="{set1:chartData.expense.budget,set2:chartData.expense.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

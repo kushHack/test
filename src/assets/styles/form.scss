@@ -1,0 +1,112 @@
+.form-field {
+    // color: aqua;
+    color: var(--text-black);
+    .form-label {
+        font-weight: 500;
+        font-size: 14px;
+        font-family: "poppins", sans-serif;
+        margin-bottom: 0.2rem;
+    }
+    .input-field {
+        font-size: 16px;
+        padding: 7px 10px;
+        border: none;
+        border: 2px solid;
+        border-radius: 0.6rem;
+        border-color: var(--input-border-color);
+        background-color: #e7f7ffd0;
+        &:focus {
+            border-width: 2px;
+            border-color: var(--input-border-hover-color);
+        }
+    }
+    .required::after {
+        content: "*";
+        color: var(--text-red);
+        font-size: 16px;
+        padding-left: 1px;
+        margin-right: 0.2rem;
+    }
+    .warning {
+        right: 0;
+        position: absolute;
+        color: var(--text-red);
+        font-size: 12px;
+        font-weight: 500;
+    }
+}
+
+.choosefile {
+    cursor: pointer;
+    background-color: var(--side-nav-color);
+    color: var(--text-white);
+    // position: absolute;
+    height: 2rem;
+    width: 7.5rem;
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 0;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    border-radius: 10px;
+    .attach-icon {
+        font-size: 18px;
+        position: relative;
+        transform: rotate(45deg);
+    }
+}
+
+.label-heading {
+    color: var(--text-black);
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 8px;
+    background: #eee;
+    border-radius: 8px;
+}
+
+.invalid {
+    label {
+        color: var(--text-red);
+    }
+    input.ng-touched.ng-invalid,
+    select.ng-touched.ng-invalid,
+    textarea.ng-touched.ng-invalid {
+        color: var(--text-red);
+        border-color: var(--border-red);
+    }
+}
+
+[tool-tip]:hover:after {
+    opacity: 1;
+    transition: all 0.3s ease-in 0.3s;
+    visibility: visible;
+}
+
+[tool-tip]:after {
+    content: attr(tool-tip);
+    background-color: var(--tooltip-color);
+    color: var(--text-black);
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    position: absolute;
+    padding: 1px 5px 2px 5px;
+    bottom: -2em;
+    left: -4rem;
+    white-space: nowrap;
+    opacity: 0;
+    border: 1px solid var(--tooltip-color);
+    border-radius: 10px;
+    z-index: 99999;
+    visibility: hidden;
+    overflow: hidden;
+}
+
+[tool-tip] {
+    position: relative;
+}

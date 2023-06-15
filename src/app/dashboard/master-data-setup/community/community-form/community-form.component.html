@@ -1,0 +1,100 @@
+<div class="background-wrap" @fadeInOut>
+    <div class="overlay">
+        <div class="heading">
+            {{form_heading}}
+        </div>
+        <div class="form-container">
+            <form [formGroup]="communityForm" style="display: flex;flex-direction: column;">
+                <div>
+                    <ng-container *ngFor="let form of formConfig;let i=index">
+                        <div [ngClass]="{'invalid':communityForm.get(form.control_name)?.touched && communityForm.get(form.control_name)?.invalid}"
+                            class="form-field" *ngIf="form.label != ''  && !form.nested && !form.budgeting">
+                            <label class="form-label required">{{form.label}}
+                            </label>
+                            <ng-container [ngSwitch]="form.type">
+                                <ng-container *ngSwitchCase="'text'">
+                                    <input type="text" class="input-field" [formControlName]="form.control_name">
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'number'">
+                                    <input type="number" class="input-field" [formControlName]="form.control_name">
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'select'">
+                                    <select class="input-field" [formControlName]="form.control_name">
+                                        <option value="">--Select--</option>
+                                        <ng-container *ngFor="let option of form.options">
+                                            <option [value]="option.value">{{option.viewValue}}</option>
+                                        </ng-container>
+                                    </select>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'change'">
+                                    <select class="input-field" [formControlName]="form.control_name" (change)="selectName(form)">
+                                        <option value="">--Select--</option>
+                                        <ng-container *ngFor="let option of form.options">
+                                            <option [value]="option.value">{{option.viewValue}}</option>
+                                        </ng-container>
+                                    </select>
+                                    </ng-container>
+                                    </ng-container>
+                            <div *ngIf="communityForm.get(form.control_name)?.touched && communityForm.get(form.control_name)?.invalid">
+                                <div class="warning" *ngIf="communityForm.get(form.control_name)?.errors['required']">
+                                    * Field is required
+                                </div>
+                                <div class="warning" *ngIf="communityForm.get(form.control_name)?.errors['pattern']">
+                                    * Please enter a number
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </ng-container>
+                                    </div>
+                                    <div>
+                                        <ng-container *ngFor="let form of formConfig;let i=index">
+                                            <div [formGroupName]="form.control_name" *ngIf="form.label != ''  && form.nested && !form.budgeting"
+                                                style="width:100%">
+                                                <h4>{{form.label}}</h4>
+                                                <div>
+                                                    <ng-container *ngFor="let subForm of form.subMenu">
+                                                        <div [ngClass]="{'invalid':communityForm.get(form.control_name)?.get(subForm.control_name)?.touched && communityForm.get(form.control_name)?.get(subForm.control_name).invalid}"
+                                                            class="form-field">
+                                                            <label class="form-label required">{{subForm.label}}</label>
+                                                            <ng-container [ngSwitch]="subForm.type">
+                                                                <ng-container *ngSwitchCase="'text'">
+                                                                    <input type="text" class="input-field" [formControlName]="subForm.control_name">
+                                                                </ng-container>
+                                                                <ng-container *ngSwitchCase="'number'">
+                                                                    <input type="number" class="input-field" [formControlName]="subForm.control_name">
+                                                                </ng-container>
+                                                            </ng-container>
+                                                            <div
+                                                                *ngIf="communityForm.get(form.control_name)?.get(subForm.control_name)?.touched && communityForm.get(form.control_name).get(subForm.control_name)?.invalid">
+                                                                <div class="warning"
+                                                                    *ngIf="communityForm.get(form.control_name).get(subForm.control_name)?.errors['required']">
+                                                                    * Field is required
+                                                                </div>
+                                                                <div class="warning"
+                                                                    *ngIf="communityForm.get(form.control_name)?.get(subForm.control_name)?.errors['pattern']">
+                                                                    * Please enter a number
+                                                                </div>
+                                                            </div>
+                                    
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+
+            </form>
+        </div>
+        <div class="button-container">
+            <div class="overlay-button close" (click)="closeForm()">
+                Close
+            </div>
+            <div *ngIf="method==='create'" class="overlay-button save" (click)="createCommunity(communityForm.value)">
+                Add Community
+            </div>
+            <div *ngIf="method==='update'" class="overlay-button save" (click)="updateCommunity(communityForm.value)">
+                Update
+            </div>
+        </div>
+    </div>
+</div>

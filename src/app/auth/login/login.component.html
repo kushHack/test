@@ -1,0 +1,33 @@
+<body>
+    <form [formGroup]="loginForm" (submit)="onLogin(loginForm.value)">
+        <div class="login-container">
+            <div class="pannel-body">
+                <div class="text-center">
+                    <div class="logo-box">
+                        <img src="/assets/img/northland_logo.svg" />
+                    </div>
+                    <h5>Welcome Back</h5>
+                </div>
+                <div class="field">
+                    <input type="text" class="inputField width100" formControlName="userName" placeholder="Username">
+                </div>
+                <div class="field">
+                    <input type="password" class="inputField width100 password" formControlName="password" placeholder="Password">
+                </div>
+                <div class="term_condition">
+                    <div class="inside-div">
+                        <input type="checkbox"> Keep me logged in
+                    </div>
+                    <div class="hyperlink">Forget Password</div>
+                </div>
+                <div class="button-signin">
+                    <button type="submit"><a>Log In &nbsp;</a> <i class="bi bi-arrow-right-circle icon2"></i>
+                    </button>
+                </div>
+                <div class="redirect">
+                    Don't Have an Account Yet? &nbsp;<a class="hyperlink">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>

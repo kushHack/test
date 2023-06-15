@@ -1,0 +1,6 @@
+<div class="alert-box-wrapper" @fadeInOut *ngIf="hidden" [ngClass]="background_class">
+    <div class="alert-content">
+        {{message}}
+        <i class="bi bi-x-circle" (click)="closeAlert()"></i>
+    </div>
+</div>

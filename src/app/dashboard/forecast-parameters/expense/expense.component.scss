@@ -1,0 +1,20 @@
+
+.rm-title{
+    font-size: 18px;
+    margin-bottom: 2rem
+}
+
+.section{
+    // width: 100%;
+    color: var(--text-black);
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    background-color: var(--form-section-bg);
+    // background-color: var(--side-nav-color);
+}
+
+.mini-form{
+    overflow: hidden;
+}

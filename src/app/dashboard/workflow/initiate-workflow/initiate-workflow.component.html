@@ -1,0 +1,58 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="form-container">
+        <form [formGroup]="workflowForm">
+            <div class="form-wrap">
+                <ng-container *ngFor="let form of form_fields; let i=index">
+                    <div [ngClass]="{'invalid':workflowForm.get(form.control_name)?.touched && workflowForm.get(form.control_name)?.invalid}" class="form-field">
+                        <label class="form-label required">{{form.label}}</label>
+                        <select class="input-field" [formControlName]="form.control_name" (change)="onChangeRPM(form.control_name, $event)">
+                            <option value="">--Select--</option>
+                            <ng-container *ngFor="let option of form.options">
+                                <option [value]="option.value" [disabled]="option.disabled">
+                                    {{option.viewValue}}
+                                </option>
+                            </ng-container>
+                        </select>
+                        <div *ngIf="workflowForm.get(form.control_name)?.touched && workflowForm.get(form.control_name)?.invalid">
+                            <div class="warning" *ngIf="workflowForm.get(form.control_name)?.errors['required']">
+                                * Field is required
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="form-wrap">
+                <div class="form-field file-field">
+                    <label class="form-label">Foreact Sheet</label>
+                    <input class="input-field-file" style="display:none" type="file" accept=".xlsx" (change)="changeFile(fileInput.value, $event)" #fileInput>
+                    <div class="choosefile" (click)="fileInput.click()">
+                        <i class="bi bi-paperclip attach-icon"></i>
+                        <a *ngIf="filename ===''"> Choose File</a>
+                        <a *ngIf="filename !=''">Change File</a>
+                    </div>
+                    <div class="filename">
+                        {{filename}}
+                    </div>
+                </div>
+                <div class="form-field file-field">
+                    <label class="form-label">RR Dump Sheet</label>
+                    <input class="input-field-file" style="display:none" type="file" accept=".xlsx" (change)="rrDumpInput(fileInputrr.value, $event)" #fileInputrr>
+                    <div class="choosefile" (click)="fileInputrr.click()">
+                        <i class="bi bi-paperclip attach-icon"></i>
+                        <a *ngIf="rrDumpFileName ===''"> Choose File</a>
+                        <a *ngIf="rrDumpFileName !=''">Change File</a>
+                    </div>
+                    <div class="filename">
+                        {{rrDumpFileName}}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="reminder-email position-button">
+        <!-- <button [disabled]="workflowForm.invalid" *ngIf="sheetAlreadyExist" (click)="onSubmit(workflowForm.value)">Submit</button>
+        <button [disabled]="submitDisabled" *ngIf="!sheetAlreadyExist" (click)="onSubmit(workflowForm.value)">Submit</button> -->
+        <button (click)="onSubmit(workflowForm.value)">Submit</button> 
+    </div>
+</div>

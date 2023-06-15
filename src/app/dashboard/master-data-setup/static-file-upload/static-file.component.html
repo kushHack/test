@@ -1,0 +1,101 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <h2>Upload Files...</h2>
+    <div class="form-container">
+        <form [formGroup]="uploadForm">
+            <div class="form-wrap">
+                <div [ngClass]="{'invalid':department?.touched && department?.invalid}" class="form-field">
+                    <label class="form-label required">Select Department</label>
+                    <select class="input-field" formControlName="department">
+                        <option value="">--Select--</option>
+                        <ng-container *ngFor="let option of departments">
+                            <option [value]="option.value">{{option.viewValue}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <div [ngClass]="{'invalid':file_type?.touched && file_type?.invalid}" class="form-field">
+                    <label class="form-label required">Select File Type</label>
+                    <select class="input-field" formControlName="file_type">
+                        <option value="">--Select--</option>
+                        <ng-container *ngFor="let dept of departments">
+                            <ng-container *ngIf="dept.value===department?.value">
+                                <ng-container *ngFor="let option of dept.options">
+                                    <option [value]="option.value">{{option.viewValue}}</option>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </select>
+                </div>
+                <div [ngClass]="{'invalid':year?.touched && year?.invalid}" class="form-field">
+                    <label class="form-label required">Select Year</label>
+                    <select class="input-field" formControlName="year">
+                        <option value='2022'>2022</option>
+                        <option value='2023'>2023</option>
+                        <option value='2024'>2024</option>
+                        <option value='2025'>2025</option>
+                        <option value='2026'>2026</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="form-label required">Upload File</label>
+                    <input class="input-field-file" style="display:none" type="file" accept=".xlsx"
+                        (change)="changeFile(file?.value, $event)" formControlName="file" #fileInput>
+                    <input class="input-field filename" readonly [value]="filename" placeholder="Select File">
+                    <div class="choosefile" (click)="fileInput.click()">
+                        <i class="bi bi-paperclip attach-icon"></i>
+                        <a *ngIf="filename ===''"> Choose File</a>
+                        <a *ngIf="filename !=''">Change File</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="reminder-email">
+                <button (click)="onSave(uploadForm.value)">Save</button>
+            </div>
+        </form>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr class="heading-row">
+                    <ng-container *ngFor="let heading of table.headers">
+                        <th class="heading-element" *ngIf="heading==='checkbox'">
+                            <input class="checkbox" type="checkbox" [checked]="mainCheck" (click)="selectAll($event)">
+                        </th>
+                        <th class="heading-element" *ngIf="heading!='checkbox'">{{heading}}</th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let row of table.dataRows; let i=index">
+                    <tr class="data-row" [ngClass]="row.class">
+                        <td class="row-element background">
+                            <input class="checkbox" type="checkbox" [disabled]="row.disabled" [checked]="row.class"
+                                (click)="selectRows($event,i)">
+                        </td>
+                        <td class="row-element background">
+                            {{row.department}}
+                        </td>
+                        <td class="row-element">
+                            <a class="green" *ngIf="row.file_name!=''">
+                                {{row.file_name}}
+                            </a>
+                            <a class="red" *ngIf="row.file_name===''">
+                                Pending upload
+                            </a>
+                        </td>
+                        <td class="row-element green">
+                            <a class="green">{{row.uploaded_date}}</a>
+                        </td>
+                        <td class="row-element green">
+                            <a class="green">{{row.uploaded_by}}</a>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <div class="reminder-email">
+            <button>Send Reminder Mail</button>
+        </div>
+    </div>
+</div>

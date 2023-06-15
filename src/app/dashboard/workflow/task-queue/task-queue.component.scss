@@ -1,0 +1,76 @@
+.main-container {
+    padding: 2rem 3rem;
+    .table-container {
+        width: 100%;
+    }
+    .checkbox {
+        cursor: pointer;
+    }
+}
+
+.pending-review {
+    background-color: var(--table-row-disable);
+}
+
+.rejected{
+    background-color: var( --table-bg-red);
+}
+
+.active-review {
+    background-color: var(--table-row-active);
+}
+
+.active-text {
+    position: relative;
+    float: right;
+    font-size: 12px;
+    margin-top: 3px;
+}
+.final-indi{
+    margin: auto;
+}
+.action-button {
+    width: fit-content;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 6px;
+    font-weight: 300;
+    border: 2px solid var(--side-nav-color);
+    color: var(--side-nav-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    span {
+        font-size: 20px;
+    }
+}
+
+.google-icon{
+    width: 6%;
+}
+
+.button-green {
+    border:2px solid var(--bg-green);
+    color:var(--bg-green);
+
+}
+.button-yellow {
+    border:2px solid var(--bg-yellow);
+    color:var(--bg-yellow);
+}
+
+.note-table {
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.community-name {
+    text-align: left;
+    padding-left: 22px;
+}
+.icon-row {
+    display: flex;
+}

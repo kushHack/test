@@ -1,0 +1,68 @@
+<breadcrum [heading]="heading"></breadcrum>
+<app-community-form [method]="form_method" [community]="edit_community" *ngIf="open_form" (close)="open_form=false"
+    (formData)="receiveFormData($event)">
+</app-community-form>
+<div class="main-container">
+    <div class="community-wrapper">
+        <div class="button-container">
+            <div class="button" (click)="addCommunity()">Add Community</div>
+        </div>
+        <div class="form-field filter-field" *ngIf="tableData?.length !=0">
+            <input class="input-field" [(ngModel)]="filter" name="filter">
+            <i class="bi bi-search search"></i>
+        </div>
+        <div class="community-not-found" *ngIf="tableData?.length ===0">
+            No Community Find Please Create One
+        </div>
+        <div class="table-container" *ngIf="tableData?.length !=0">
+            <table>
+                <thead>
+                    <tr class="heading-row">
+                        <ng-container *ngFor="let heading of tableHeading">
+                            <th class="heading-element">{{heading}}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let row of tableData | searchFilter:filter; let i=index">
+                        <tr class="data-row" [ngClass]="{'invalid':!row.isActive}"
+                            *ngIf="i+1> tableLengthMin$.value  && i < tableLengthMax$.value">
+                            <td class="row-element center">
+                                <!-- {{i+1}} -->
+                                {{row.index}}
+                            </td>
+                            <td class="row-element">
+                                {{row.communityId}}
+                            </td>
+                            <td class="row-element">
+                                {{row.communityName}}
+                            </td>
+                            <td class="row-element">
+                                {{row.region}}
+                            </td>
+                            <td class="row-element">
+                                {{row.rpm}}
+                            </td>
+                            <td class="row-element">
+                                {{row.fund}}
+                            </td>
+                            <td class="row-element">
+                                {{row.sqft}}
+                            </td>
+                            <td class="row-element center">
+                                <a *ngIf="row.isActive">Active</a>
+                                <a *ngIf="!row.isActive">InActive</a>
+                            </td>
+                            <td class="row-element button-edit center">
+                                <div (click)="updateCommunity(row)">Edit
+                                    <a class="edit-logo"></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+        <app-pagination [limit]="15"></app-pagination>
+    </div>
+</div>

@@ -1,0 +1,141 @@
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* Hide the browser's default checkbox */
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+
+/* Create a custom checkbox */
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #ffffff00;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+
+.container input:checked~.checkmark {
+    background-color: #ffffff;
+}
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+/* Show the checkmark when checked */
+
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+
+/* Style the checkmark/indicator */
+
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+// Custom tool tip
+
+/*You can use [title] selector as well*/
+
+[data-title]:hover::before {
+    content: attr(data-title);
+    position: absolute;
+    bottom: -26px;
+    display: inline-block;
+    padding: 6px 6px;
+    border-radius: 8px;
+    background: #e2e2e2;
+    color: #000000;
+    font-size: 12px;
+    font-family: sans-serif;
+    white-space: nowrap;
+}
+
+[data-title]:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 8px;
+    display: inline-block;
+    color: #fff;
+    border: 8px solid transparent;
+    border-bottom: 8px solid #e2e2e2;
+    border-radius: 5px;
+}
+
+
+<h1>Styling html title tooltip</h1>
+<span data-title="Here is some text for example">Hover me</span>
+
+
+//svg
+.neo_imgLoad {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    z-index: 9999999999;
+    stroke-width: 1.8px;
+    stroke-dasharray: 1376;
+    animation: 4s logoDraw;
+}
+
+//div
+element.style {
+    background-color: rgb(34, 30, 27);
+    display: none;
+}
+
+.neoLoader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9999999999;
+}
+
+
+<div class="neoLoader" style="background-color: rgb(34, 30, 27); display: none;"><div class="fl fl-spinner spinner4"></div></div>
+<svg class="neo_imgLoad neoimgLoad animated fadeIn" xmlns="http://www.w3.org/2000/svg" width="376.181" height="376.179" viewBox="-10 -10 398.181 388.179" style="display: block;"><path fill="none" stroke="#505050" d="M-3363.1,11100.2h-1.986a188.654,188.654,0,0,1-37.687-3.994,187.032,187.032,0,0,1-35.111-11.081,188.372,188.372,0,0,1-31.78-17.411,190.019,190.019,0,0,1-27.695-22.988,189.856,189.856,0,0,1-22.854-27.809,188.377,188.377,0,0,1-17.26-31.875,186.964,186.964,0,0,1-10.909-35.187,188.771,188.771,0,0,1-3.8-37.742c0-103.714,84.378-188.092,188.092-188.092S-3176,10808.4-3176,10912.111a188.781,188.781,0,0,1-3.8,37.742,186.967,186.967,0,0,1-10.909,35.187,188.389,188.389,0,0,1-17.259,31.875,189.859,189.859,0,0,1-22.854,27.809,189.95,189.95,0,0,1-27.694,22.988,188.33,188.33,0,0,1-31.78,17.411,187.084,187.084,0,0,1-35.111,11.081A188.656,188.656,0,0,1-3363.1,11100.2Zm-.993-357.982c-93.681,0-169.9,76.215-169.9,169.9s76.215,169.894,169.9,169.894,169.893-76.214,169.893-169.894S-3270.409,10742.216-3364.089,10742.216Zm75.488,273.544h-.661l-171.694-189.393v-.506h49.884l122.471,135.588Zm-106.977-7.589h-61.915l11-14.013a90.346,90.346,0,0,0,14.36-26.341,90.376,90.376,0,0,0,4.967-29.586h1.26a90.369,90.369,0,0,0,4.968,29.586,90.381,90.381,0,0,0,14.359,26.341l11,14.011Zm103.828-112.37h-1.26a90.372,90.372,0,0,0-4.967-29.585,90.327,90.327,0,0,0-14.36-26.34l-11-14.015h61.912l-11,14.015a90.37,90.37,0,0,0-14.359,26.34,90.37,90.37,0,0,0-4.968,29.584Z" transform="translate(3552.181 -10724.02)"></path></svg>

@@ -1,0 +1,181 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+  <div class="config-form-container">
+    <form [formGroup]="masterConfigForm">
+      <ng-container *ngFor="let form of configForm">
+        <div [ngClass]="{
+            invalid:
+              masterConfigForm.get(form.control_name)?.touched &&
+              masterConfigForm.get(form.control_name)?.invalid
+          }" class="form-field" *ngIf="!form.nested">
+          <div class="label">
+            <label class="form-label required">{{form.label}}</label>
+          </div>
+          <input class="input-field" type="text" [formControlName]="form.control_name" />
+          <p>{{ form!.placeholder }}</p>
+          <div *ngIf="
+              masterConfigForm.get(form.control_name)?.touched &&
+              masterConfigForm.get(form.control_name)?.invalid
+            ">
+            <div class="warning1" *ngIf="
+                masterConfigForm.get(form.control_name)?.errors['required']
+              ">
+              * Field is required
+            </div>
+            <div class="warning1" *ngIf="masterConfigForm.get(form.control_name)?.errors['pattern']">
+              * Value should be a Number
+            </div>
+            <div class="warning1" *ngIf="
+                masterConfigForm.get(form.control_name)?.errors['min'] ||
+                masterConfigForm.get(form.control_name)?.errors['max']
+              ">
+              * Value should be in range of {{ form.min }}-{{ form.max }}
+            </div>
+          </div>
+        </div>
+        <div class="form-field" style="flex-direction: column; border: none" *ngIf="form.nested">
+          <div>
+            <h4>{{ form.label }}</h4>
+          </div>
+          <div class="form-field" style="flex-direction: column; border: none" *ngIf="form.nested"
+            [formGroupName]="form.control_name">
+            <ng-container *ngFor="let subForm of form.subMenu">
+              <div class="form-field" [formGroupName]="subForm.control_name" [ngClass]="{
+                    invalid:
+                        masterConfigForm
+                            .get(form.control_name)
+                            .get(subForm.control_name)
+                            ?.touched &&
+                        masterConfigForm
+                            .get(form.control_name)
+                            .get(subForm.control_name)?.invalid
+                                }">
+                <div class="label">
+                  <label class="form-label required">
+                    {{ subForm.label }}
+                  </label>
+                </div>
+                <div class="form-row">
+                  <div class="form-row">
+                    <label> from </label>
+                    <input class="input-field" type="text" [formControlName]="subForm.subMenu![0].control_name"
+                      (input)="onRangeChange(subForm)" />
+                  </div>
+                  <div>-</div>
+                  <div class="form-row">
+                    <label> to </label>
+                    <input class="input-field" type="text" [formControlName]="subForm.subMenu![1].control_name"
+                    (input)="onRangeChange(subForm)" />
+                  </div>
+                  <div *ngIf="
+                      masterConfigForm
+                          .get(form.control_name)
+                          ?.get(subForm.control_name)
+                          .touched &&
+                      masterConfigForm
+                          .get(form.control_name)
+                          ?.get(subForm.control_name)
+                          ?.invalid
+                                        ">
+                    <div class="warning1" *ngIf="
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![0]
+                                    .control_name
+                            )?.errors?.required ||
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![1]
+                                    .control_name
+                            )?.errors?.required
+                                            ">
+                      * Field is required
+                    </div>
+                    <div class="warning1" *ngIf="
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![0]
+                                    .control_name
+                            )?.errors?.pattern ||
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![1]
+                                    .control_name
+                            )?.errors?.pattern
+                                            ">
+                      * Value should be a Number
+                    </div>
+                    <div class="warning1" *ngIf="
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![0]
+                                    .control_name
+                            )?.errors?.invalidRange ||
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![1]
+                                    .control_name
+                            )?.errors?.invalidRange
+                                            ">
+                      * To should be higher than From
+                    </div>
+                    <div class="warning1" *ngIf="
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![0]
+                                    .control_name
+                            )?.errors?.min ||
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![0]
+                                    .control_name
+                            )?.errors?.max ||
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![1]
+                                    .control_name
+                            )?.errors?.min ||
+                        masterConfigForm
+                            .get(form.control_name)
+                            ?.get(subForm.control_name)
+                            ?.get(
+                                subForm.subMenu![1]
+                                    .control_name
+                            )?.errors?.max
+                                            ">
+                      * Value should be in range of
+                      {{ subForm.subMenu![0].min }}-{{
+                      subForm.subMenu![0].max
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+      <div class="reminder-email">
+        <button (click)="onSaveConfig()">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

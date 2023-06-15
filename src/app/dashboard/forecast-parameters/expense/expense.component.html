@@ -1,0 +1,110 @@
+<app-form-overlay [heading]="overlay_heading" [data]="overlayData"></app-form-overlay>
+<app-form-submit *ngIf="showSubmit" (close)="showSubmit=false" (reponse)="submitOverlayResponse($event)"
+    [workflow]="workflowDetails" [workflowInstance]="workflowData" [heading]="submitOverlayHeading"
+    [formData]="formData" [keys]="keys" [control]="submitOverlayControl" ></app-form-submit>
+
+<breadcrum [heading]="heading"></breadcrum>
+<div class="no-data-found" *ngIf="!workflowStarted">
+    <a>
+        <a *ngIf="userRole==='RA'">No Workflow on Review Found!</a>
+        <a *ngIf="userRole==='RPM'">Workflow is not Started!</a>
+        <br> Please Start one from Task Queue</a>
+    <br>
+    <div class="button-inside" routerLink="/dashboard/workflow/task-queue">Click Here</div>
+</div>
+<div class="main-container" *ngIf="workflowStarted">
+    <div class="status-container">
+        <a *ngIf="userRole==='RA'">Reviewing for </a>
+        <a *ngIf="userRole==='RPM'">Filling for </a> Community: <b>{{workflowDetails.communityName}}</b> &nbsp; Quarter:
+        <b>{{workflowDetails.quarter |
+            titlecase}}</b> &nbsp; Year: <b>{{workflowDetails.year}}</b>
+        <a *ngIf="userRole==='RA'"> &nbsp; Make Ready: <b *ngIf="mrApproved">APPROVED</b><b *ngIf="!mrApproved">NOT
+                APPROVED</b></a>
+        <a *ngIf="userRole==='RA'"> &nbsp; R&M: <b *ngIf="rmApproved">APPROVED</b><b *ngIf="!rmApproved">NOT
+                APPROVED</b></a>
+        <a *ngIf="userRole==='RPM'"> &nbsp; Make Ready: <b *ngIf="mrAvailable">SAVED</b><b *ngIf="!mrAvailable">NOT
+                SAVED</b></a>
+        <a *ngIf="userRole==='RPM'"> &nbsp; R&M: <b *ngIf="rmAvailable">SAVED</b><b *ngIf="!rmAvailable">NOT
+                SAVED</b></a>
+    </div>
+    <div class="nav-tab-main">
+        <div class="nav-tab-inner">
+            <ng-container *ngFor="let tab of navTabs; let i=index">
+                <a class="nav-tab-text" [ngClass]="tab.class" (click)="toggleTabs(i)">{{tab.title}}</a>
+            </ng-container>
+        </div>
+    </div>
+    <div class="form-container" @fadeInOut *ngIf="selectedIndex===1">
+        <form [formGroup]="expenseFormMR">
+            <ng-container *ngFor="let row of form_MR.rows">
+                <div class="mini-form" [formGroupName]="row.group_name">
+                    <div class="section">
+                        {{row.row_name}} &nbsp;
+                        <i class="bi bi-arrow-down-circle icon-drop" tool-tip="View/Edit Monthly Data"
+                            (click)="loadOverlay(row.row_name, row.control_name, 'mr')"></i>
+                    </div>
+                    <ng-container *ngFor="let control of form_MR.controls">
+                        <div [ngClass]="{'invalid':expenseFormMR.get(row.group_name)?.get(control.name)?.touched && expenseFormMR.get(row.group_name)?.get(control.name).invalid}"
+                            class="form-field">
+                            <label class="form-label">{{control.label}}&nbsp;
+                                <i class="bi bi-info-circle" [attr.tool-tip]="control.label"></i>
+                            </label>
+                            <input type="text" class="input-field" [placeholder]="control.placeholder"
+                                [formControlName]="control.name">
+                            <div
+                                *ngIf="expenseFormMR.get(row.group_name)?.get(control.name)?.touched && expenseFormMR.get(row.group_name)?.get(control.name)?.invalid">
+                                <div class="warning"
+                                    *ngIf="expenseFormMR.get(row.group_name)?.get(control.name).errors['pattern']">
+                                    * Value should be a Number
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </form>
+        <div class="reminder-email" type="submit">
+            <button class="red" *ngIf="userRole==='RA'" [disabled]="mrApproved"
+                (click)="rejectWorkflow()">Reject</button>
+            <button *ngIf="userRole==='RA'" [disabled]="mrApproved"
+                (click)="showSubmitOverlay({makeReadyExpense:expenseFormMR.value}, 1)">Approve</button>
+            <button (click)="previewData({makeReadyExpense:expenseFormMR.value}, 1)">Preview</button>
+            <button *ngIf="userRole==='RPM'"
+                (click)="showSubmitOverlay({makeReadyExpense:expenseFormMR.value},1)">Save</button>
+        </div>
+    </div>
+    <div class="form-container" @fadeInOut *ngIf="selectedIndex===2">
+        <!-- <div class="rm-title">
+            Enter Monthly Cost of:
+        </div> -->
+        <form [formGroup]="expenseFormRM">
+            <ng-container *ngFor="let form of form_RM1;let i=index">
+                <div [ngClass]="{'invalid':expenseFormRM.get(form.control_name)?.touched && expenseFormRM.get(form.control_name)?.invalid}"
+                    class="form-field">
+                    <label class="form-label">{{form.label}}&nbsp;
+                        <i class="bi bi-question-circle" [attr.tool-tip]="form.label"></i>
+                    </label>
+                    <input type="text" class="input-field" placeholder="$" [formControlName]="form.control_name">
+                    <i class="bi bi-arrow-down-circle icon-drop" tool-tip="View/Edit Monthly Data"
+                        (click)="loadOverlay(form.label, form.control_name, 'rm')"></i>
+                    <div
+                        *ngIf="expenseFormRM.get(form.control_name)?.touched && expenseFormRM.get(form.control_name)?.invalid">
+                        <div class="warning" *ngIf="expenseFormRM.get(form.control_name)?.errors['pattern']">
+                            * Value Should be a Number
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <br>
+        </form>
+        <div class="reminder-email" type="submit">
+            <button class="red" *ngIf="userRole==='RA'" [disabled]="rmApproved"
+                (click)="rejectWorkflow()">Reject</button>
+            <button *ngIf="userRole==='RA'" [disabled]="rmApproved"
+                (click)="showSubmitOverlay({repairAndMaintenance:expenseFormRM.value}, 2)">Approve</button>
+            <button (click)="previewData({repairAndMaintenance:expenseFormRM.value}, 2)">Preview</button>
+            <button *ngIf="userRole==='RPM'"
+                (click)="showSubmitOverlay({repairAndMaintenance:expenseFormRM.value}, 2)">Save</button>
+        </div>
+    </div>
+</div>

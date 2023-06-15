@@ -1,0 +1,112 @@
+<app-form-overlay [heading]="overlay_heading" [data]="overlayData"></app-form-overlay>
+<app-form-submit *ngIf="showSubmit" (close)="showSubmit=false" (reponse)="submitOverlayResponse($event)"
+    [workflow]="workflowDetails" [workflowInstance]="workflowData" heading="Other Income Forecast Summary"
+    [formData]="formData" [keys]="keys" control="otherIncome"></app-form-submit>
+<breadcrum [heading]="heading"></breadcrum>
+<div class="no-data-found" *ngIf="!workflowStarted">
+    <a>
+        <a *ngIf="userRole==='RA'">No Workflow on Review Found!</a>
+        <a *ngIf="userRole==='RPM'">Workflow is not Started!</a>
+        <br> Please Start one from Task Queue</a>
+    <br>
+    <div class="button-inside" routerLink="/dashboard/workflow/task-queue">Click Here</div>
+</div>
+<div class="main-container" *ngIf="workflowStarted">
+    <div class="status-container">
+        <a *ngIf="userRole==='RA'">Reviewing for </a>
+        <a *ngIf="userRole==='RPM'">Filling for </a> Community: <b>{{workflowDetails.communityName}}</b> &nbsp; Quarter:
+        <b>{{workflowDetails.quarter |
+            titlecase}}</b> &nbsp; Year: <b>{{workflowDetails.year}}</b>
+        <a *ngIf="userRole==='RA'"> &nbsp; Other Income: <b *ngIf="incomeApproved">APPROVED</b><b
+                *ngIf="!incomeApproved">NOT APPROVED</b></a>
+        <a *ngIf="userRole==='RPM'"> &nbsp; Other Income: <b *ngIf="dataAvailable">SAVED</b><b
+                *ngIf="!dataAvailable">NOT SAVED</b></a>
+    </div>
+    <div class="nav-tab-main">
+        <div class="nav-tab-inner">
+            <a class="nav-tab-text active">Other Income</a>
+        </div>
+    </div>
+    <div class="form-container">
+        <form [formGroup]="incomeForm">
+            <ng-container *ngFor="let section of form_sections;let i=index">
+                <div class="section" (click)="toggleSections(section.control)">
+                    <div>{{section.view}} &nbsp;
+                        <i class="bi bi-arrow-down-circle icon-drop" tool-tip="View/Edit Monthly Data"
+                            (click)="loadOverlay(section.view, section.control)"></i>
+                    </div>
+                    <i class="fa section-icon"
+                        [ngClass]="{'fa-angle-up':section.class === 'toggle-active','fa-angle-down':section.class === 'height-0'}"></i>
+                </div>
+                <div class="section-container" [ngClass]="section.class">
+                    <div class="section-form">
+                        <ng-container *ngFor="let form of form_fields;let i=index">
+                            <ng-container *ngIf="form.category===section.control">
+                                <div [ngClass]="{'invalid':incomeForm.get(form.control_name)?.touched && incomeForm.get(form.control_name)?.invalid}"
+                                    class="form-field">
+                                    <label class="form-label">
+                                        {{form.label}}
+                                        &nbsp;
+                                        <i class="bi bi-info-circle" [attr.tool-tip]="form.label"></i>
+                                    </label>
+                                    <input type="text" class="input-field" [placeholder]="form.placeholder"
+                                        [formControlName]="form.control_name"
+                                        (change)="changeInput(form.category, incomeForm.get(form.control_name)?.value)">
+                                    <div
+                                        *ngIf="incomeForm.get(form.control_name)?.touched && incomeForm.get(form.control_name)?.invalid">
+                                        <div class="warning"
+                                            *ngIf="incomeForm.get(form.control_name)?.errors['min'] || incomeForm.get(form.control_name)?.errors['max'] ">
+                                            * Value should in range [{{form.min}} - {{form.max}}]
+                                        </div>
+                                        <div class="warning"
+                                            *ngIf="incomeForm.get(form.control_name)?.errors['pattern']">
+                                            * Value should be a Number
+                                        </div>
+                                        <div class="warning"
+                                            *ngIf="incomeForm.get(form.control_name)?.errors['required']">
+                                            * Field is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <div class="section-table" [ngClass]="section.class" *ngIf="section.manual">
+                        <table class="overlay-table" [formGroupName]="section.monthly_control">
+                            <thead>
+                                <tr class="heading-row">
+                                    <th class="big-heading background">Parameter Type</th>
+                                    <ng-container *ngFor="let heading of monthly_form_fields.headers">
+                                        <th class="heading-element">{{ heading }}</th>
+                                    </ng-container>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="data-row">
+                                    <td class="row-element parameter background">{{section.manual_title}}</td>
+                                    <ng-container
+                                        *ngFor="let control of monthly_form_fields.control_names; let i= index">
+                                        <td class="row-element">
+                                            <span class="input-field" [ngClass]="{'grey-border':i<currentMonth-1}">
+                                                <input type="text" [readOnly]="i<currentMonth"
+                                                    [formControlName]="control">
+                                                <a *ngIf="section.input_type === 'percent'">%</a></span>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+    </div>
+    <div class="reminder-email">
+        <button class="red" *ngIf="userRole==='RA'" [disabled]="incomeApproved"
+            (click)="rejectWorkflow()">Reject</button>
+        <button *ngIf="userRole==='RA'" [disabled]="incomeApproved"
+            (click)="showSubmitOverlay(incomeForm.value)">Approve</button>
+        <button (click)="previewData(incomeForm.value)">Preview</button>
+        <button *ngIf="userRole==='RPM'" (click)="showSubmitOverlay(incomeForm.value)">Save</button>
+    </div>
+</div>

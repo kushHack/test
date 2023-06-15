@@ -1,0 +1,124 @@
+.background-wrap {
+    position: fixed;
+    padding: 4rem;
+    z-index: 9;
+    backdrop-filter: blur(3px);
+    width: 80%;
+    height: 100%;
+
+    .overlay {
+        width: 60%;
+        height: max-content;
+        background-color: #ffffff;
+        padding: 1rem;
+        margin: 0 auto;
+        margin-top: 7rem;
+        border-radius: 1rem;
+        border: 2px solid var(--border-black);
+
+        // overflow: hidden;
+        .heading {
+            padding-bottom: 0.4rem;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .table-container {
+            width: 100%;
+            // border: 2px solid var(--border-black);
+            max-height: 310px;
+            overflow: scroll;
+
+            .width-15 {
+                width: 15%;
+            }
+
+            .width-30 {
+                width: 30%;
+            }
+
+            .background {
+                text-align: left;
+                font-weight: 500;
+            }
+
+            th {
+                padding-left: 1rem;
+            }
+
+            td {
+                padding: 0.8rem;
+                padding-left: 1rem;
+                font-weight: 600;
+            }
+
+            .red {
+                background-color: var(--table-bg-red);
+            }
+
+            .green {
+                background-color: var(--table-bg-green);
+            }
+        }
+
+        .reason-form-main {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            .reason-form {
+                margin-top: 2rem;
+                font-size: 14px;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .label {
+                    font-weight: 500;
+                }
+
+                .big-input {
+                    font-size: 14px;
+                    padding: 0.5rem;
+                    height: 6rem;
+                    width: 15rem;
+                    border-radius: 0.5rem;
+                }
+                .warning-text{
+                    color:var(--text-red);
+                    margin-top: -5px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .button-container {
+            padding-top: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 1rem;
+
+            .overlay-button {
+                font-size: 14px;
+                text-align: center;
+                cursor: pointer;
+                min-width: 3rem;
+                padding: 3px 8px;
+                color: var(--text-white);
+                border-radius: 0.5rem;
+            }
+
+            .close {
+                background-color: var(--side-nav-color);
+            }
+
+            .save {
+                background-color: var(--text-green);
+            }
+
+            .reject {
+                background-color: var(--text-red);
+            }
+        }
+    }
+}

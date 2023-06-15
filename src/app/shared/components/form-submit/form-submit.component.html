@@ -1,0 +1,58 @@
+<div class="background-wrap" @fadeInOut *ngIf="show">
+    <div class="overlay">
+        <div class="heading">
+            {{ heading }}
+        </div>
+        <div class="table-container">
+            <table class="overlay-table">
+                <thead>
+                    <tr class="heading-row">
+                        <ng-container *ngFor="let heading of table.headers">
+                            <th class="heading-element" [ngClass]="heading.class">{{ heading.name}}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let row of tableData">
+                        <tr class="data-row">
+                            <td class="row-element background">
+                                {{row.title}}
+                            </td>
+                            <td class="row-element">
+                                {{row.budget}} $
+                            </td>
+                            <td class="row-element">
+                                {{row.forecast}} $
+                            </td>
+                            <td class="row-element" [ngClass]="row.state">
+                                {{row.variance}} $
+                            </td>
+                            <td class="row-element" [ngClass]="row.state">
+                                {{row.change}} %
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+        <form [formGroup]="reasonForm" class="reason-form-main">
+            <div class="form-field reason-form" [ngClass]="{'invalid':reasonRPM?.touched && reasonRPM?.invalid}">
+                <label class="label required">Variance Reason/Comment:</label>
+                <textarea type="text" class="input-field big-input" formControlName="reasonRPM"></textarea>
+                <div class="warning-text" *ngIf="reasonRPM?.touched && reasonRPM?.invalid">*Field is required</div>
+            </div>
+            <div class="form-field reason-form" *ngIf="dataAvailable && userRole==='RPM' || userRole==='RA'"
+                [ngClass]="{'invalid':reasonRA?.touched && reasonRA?.invalid}">
+                <label class="label required">Admin Reason/Comment:</label>
+                <textarea type="text" class="input-field big-input" formControlName="reasonRA"></textarea>
+                <div class="warning-text" *ngIf="reasonRA?.touched && reasonRA?.invalid">*Field is required</div>
+            </div>
+        </form>
+        <div class="button-container">
+            <div class="overlay-button close" (click)="closeOverlay()">Close</div>
+            <div class="overlay-button reject" *ngIf="userRole==='RA'" (click)="reject(reasonForm.value)">Reject</div>
+            <div class="overlay-button save" *ngIf="userRole==='RA'" (click)="submit(reasonForm.value)">Approve</div>
+            <div class="overlay-button save" *ngIf="userRole==='RPM'" (click)="submit(reasonForm.value)">Save</div>
+        </div>
+    </div>
+</div>

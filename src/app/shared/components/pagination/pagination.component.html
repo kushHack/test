@@ -1,0 +1,18 @@
+<nav class="pagination-cont">
+    <ul class="pagi">
+        <li class="pagi-item">
+            <button class="pagi-btn" (click)="setTableRange(tableLengthMin$.value-limit, tableLengthMax$.value-limit)">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        <ng-container *ngFor="let pag of pagArray;let i = index;">
+            <li class="pagi-item"><button class="pagi-btn"
+                    (click)="setTableRange(i*limit, (i+1)*limit)">{{i+1}}</button></li>
+        </ng-container>
+        <li class="pagi-item">
+            <button class="pagi-btn" (click)="setTableRange(tableLengthMin$.value+limit, tableLengthMax$.value +limit)">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>

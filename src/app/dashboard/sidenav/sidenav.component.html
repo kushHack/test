@@ -1,0 +1,47 @@
+<div class="main-container">
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+    <div class="logo-container">
+        <img class="logo" src="/assets/img/northland_logo.svg">
+        <div class="logo-text" @fadeInOut *ngIf="collapsed">Northland</div>
+    </div>
+    <ul class="sidenav-nav">
+        <li class="sidenav-nav-item">
+            <ng-container *ngFor="let data of navData;let i=index">
+                <a *ngIf="data.roles.includes(userRole)" class="sidenav-nav-link" [routerLink]="data.routeLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" (click)="toggleMenu(i)">
+                    <i class="sidenav-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        {{data.label}}
+                        <i *ngIf="data.submenu && collapsed" class="fa submenu-icon"
+                            [ngClass]="{'fa-angle-up':!data.collapsed,'fa-angle-down':data.collapsed}"></i>
+                    </span>
+                </a>
+                <ng-container *ngIf="collapsed && data.submenu && data.roles.includes(userRole)">
+                    <ul *ngIf="collapsed && data.submenu && data.roles.includes(userRole)" [ngStyle]="{'margin-left': '0px', 'padding-left':'30px'}" [ngClass]="data.collapsed ? 'height-0': ''" @fadeInOut>
+                        <li class="sidenav-nav-item-inside" *ngFor="let sub1 of data.submenu">
+                            <a *ngIf="sub1.roles.includes(userRole)" class="sidenav-nav-link-inside" [routerLink]="sub1.routeLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+                                <i class="sidenav-link-icon-inside" [class]="sub1.icon"></i>
+                                <span class="sidenav-link-text-inside" @fadeInOut>{{sub1.label}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </ng-container>
+            </ng-container>
+            <a class="sidenav-nav-link" (click)="logout()">
+                <i class="sidenav-link-icon bi bi-box-arrow-right"></i>
+                <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                    Logout
+                </span>
+            </a>
+        </li>
+    </ul>
+    <div class="account-info">
+        <i class="fa fa-user icon-user"></i>
+        <div class="username-email" @fadeInOut *ngIf="collapsed">
+            <a class="username">{{userName}}</a>
+            <a class="role" *ngIf="userRole==='RA'">Revenue Analyst</a>
+            <a class="role" *ngIf="userRole==='DA'">Data Analyst</a>
+            <a class="role" *ngIf="userRole==='RPM'">RPM</a>
+        </div>
+
+    </div>
+</div>

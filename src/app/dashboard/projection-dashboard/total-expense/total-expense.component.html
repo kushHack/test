@@ -1,0 +1,79 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="toggle-forecast">
+        <div class="back-button">
+            <i class="bi bi-arrow-left-circle" (click)="navigate('')"></i>
+        </div>
+        <div class="tab" (click)="changeDashboadType('combined')" [ngClass]="{'active':dashboardType==='combined'}">
+            Portfolio
+        </div>
+        <div class="tab" (click)="changeDashboadType('individual')" [ngClass]="{'active':dashboardType==='individual'}">
+            Community
+        </div>
+        <select class="tab input-field" (change)="changeForecastYear($event)">
+            <ng-container *ngFor="let year of years; let i=index">
+                <option [value]="year" [selected]="selectedYear === year">{{year}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" *ngIf="dashboardType==='individual'" (change)="changeForecast($event)">
+            <ng-container *ngFor="let community of communities; let i=index">
+                <option [value]="i">{{community.communityName}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" (change)="changeForecastVersion($event)">
+            <ng-container *ngFor="let version of versions">
+                <option [value]="version" [selected]="selectedVersion === version">v{{version}}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <div class="section">
+            Total Make Ready Expense
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="1" [setIndex]="2" title="Actual vs Budget" [dataSet]="4"
+                    [chartData]="{set1:chartData.mrExpense.actual,set2:chartData.mrExpense.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="2" [setIndex]="2" title="Actual vs Forecast" [dataSet]="4"
+                    [chartData]="{set1:chartData.mrExpense.actual,set2:chartData.mrExpense.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('make-ready')">See More</div>
+                </div>
+                <app-single-bar-line chartId="3" [setIndex]="2" title="Budget vs Forecast" [dataSet]="4"
+                    [chartData]="{set1:chartData.mrExpense.budget,set2:chartData.mrExpense.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <div class="section">
+            Total Repair & Maintenance Expense
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="5" [setIndex]="3" title="Actual vs Budget" [dataSet]="5"
+                    [chartData]="{set1:chartData.rmExpense.actual,set2:chartData.rmExpense.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="4" [setIndex]="3" title="Actual vs Forecast" [dataSet]="5"
+                    [chartData]="{set1:chartData.rmExpense.actual,set2:chartData.rmExpense.forecast}">
+                </app-single-bar-line>
+            </div>
+
+            <div class="chart-body">
+                <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('repair-maintenance')">See More</div>
+                </div>
+                <app-single-bar-line chartId="6" [setIndex]="3" title="Budget vs Forecast" [dataSet]="5"
+                    [chartData]="{set1:chartData.rmExpense.budget,set2:chartData.rmExpense.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

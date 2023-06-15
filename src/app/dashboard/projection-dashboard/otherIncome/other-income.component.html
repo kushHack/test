@@ -1,0 +1,103 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="toggle-forecast">
+        <div class="back-button">
+            <i class="bi bi-arrow-left-circle" (click)="navigate('total-income')"></i>
+        </div>
+        <div class="tab" (click)="changeDashboadType('combined')" [ngClass]="{'active':dashboardType==='combined'}">
+            Portfolio
+        </div>
+        <div class="tab" (click)="changeDashboadType('individual')" [ngClass]="{'active':dashboardType==='individual'}">
+            Community
+        </div>
+        <select class="tab input-field" (change)="changeForecastYear($event)">
+            <ng-container *ngFor="let year of years; let i=index">
+                <option [value]="year" [selected]="selectedYear === year">{{year}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" *ngIf="dashboardType==='individual'" (change)="changeForecast($event)">
+            <ng-container *ngFor="let community of communities; let i=index" >
+                    <option [value]="i">{{community.communityName}}</option>
+                </ng-container>
+        </select>
+        <select class="tab input-field" (change)="changeForecastVersion($event)">
+            <ng-container *ngFor="let version of versions">
+                <option [value]="version" [selected]="selectedVersion === version">v{{version}}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <app-summary title="Total Other Income" [summary]="summary"></app-summary>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="1" [setIndex]="1" [title]="chartTitle +'Admin Fee'" [chartData]="chartData.adminFee">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="2" [setIndex]="1" [title]="chartTitle +'App Fee'" [chartData]="chartData.appFee">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="3" [setIndex]="1" [title]="chartTitle +'Edge Fee'" [chartData]="chartData.edgeFee">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="4" [setIndex]="1" [title]="chartTitle +'Electricity Income'" [chartData]="chartData.electricityIncome">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="5" [setIndex]="1" [title]="chartTitle +'Renters Insurance'" [chartData]="chartData.rentersInsurance">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="6" [setIndex]="1" [title]="chartTitle +'Compilance Tracking Fee'" [chartData]="chartData.complianceTrackingFee">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="7" [setIndex]="1" [title]="chartTitle +'Pest Control Income'" [chartData]="chartData.pestControlIncome">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="8" [setIndex]="1" [title]="chartTitle +'Late Charges'" [chartData]="chartData.lateCharges">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="9" [setIndex]="1" [title]="chartTitle +'NSF Charges'" [chartData]="chartData.nsfCharges">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="10" [setIndex]="1" [title]="chartTitle +'Lease Termination'" [chartData]="chartData.leaseTermination">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="11" [setIndex]="1" [title]="chartTitle +'Smart Rent'" [chartData]="chartData.smartRent">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="12" [setIndex]="1" [title]="chartTitle +'Security Deposit Forfeit'" [chartData]="chartData.securityDepositForfeit">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="13" [setIndex]="1" [title]="chartTitle +'Storage Income'" [chartData]="chartData.storageIncome">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="14" [setIndex]="1" [title]="chartTitle +'Resident Transfer Fee'" [chartData]="chartData.residentTransferFee">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

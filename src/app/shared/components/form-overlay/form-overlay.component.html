@@ -1,0 +1,31 @@
+<div class="background-wrap" @fadeInOut *ngIf="loading">
+    <div class="overlay">
+        <div class="heading">
+            {{ heading }}
+        </div>
+        <form>
+            <table class="overlay-table">
+                <thead>
+                    <tr class="heading-row">
+                        <ng-container *ngFor="let heading of table.headers">
+                            <th class="heading-element">{{ heading }}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="data-row">
+                        <ng-container *ngFor="let row of table.headers">
+                            <td class="row-element">
+                                <input [value]="data[row.toLowerCase()]" type="text" />
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div class="button-container">
+            <div class="overlay-button close" (click)="closeOverlay()">Close</div>
+            <!-- <div class="overlay-button save">SAVE</div> -->
+        </div>
+    </div>
+</div>

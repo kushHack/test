@@ -1,0 +1,12 @@
+.breadcrum {
+    text-align: center;
+    gap: 0.4rem;
+    height: 1.8rem;
+    font-weight: 400;
+    background-color: var(--side-nav-color);
+    padding: 0.4rem;
+    color: var(--breadcrum-text);
+    font-size: 19px;
+    z-index: 10;
+    overflow: hidden;
+}

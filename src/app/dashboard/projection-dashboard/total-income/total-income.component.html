@@ -1,0 +1,132 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="toggle-forecast">
+        <div class="back-button">
+                <i class="bi bi-arrow-left-circle" (click)="navigate('')"></i>
+        </div>
+        <div class="tab" (click)="changeDashboadType('combined')" [ngClass]="{'active':dashboardType==='combined'}">
+            Portfolio
+        </div>
+        <div class="tab" (click)="changeDashboadType('individual')" [ngClass]="{'active':dashboardType==='individual'}">
+            Community
+        </div>
+        <select class="tab input-field" (change)="changeForecastYear($event)">
+            <ng-container *ngFor="let year of years; let i=index">
+                <option [value]="year" [selected]="selectedYear === year">{{year}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" *ngIf="dashboardType==='individual'" (change)="changeForecast($event)">
+            <ng-container *ngFor="let community of communities; let i=index">
+                <option [value]="i">{{community.communityName}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" (change)="changeForecastVersion($event)">
+            <ng-container *ngFor="let version of versions">
+                <option [value]="version" [selected]="selectedVersion === version">v{{version}}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <div class="section">
+            Net Rent Collected
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <!-- <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('rental-income/actual-budget')">See More</div>
+                </div> -->
+                <app-single-bar-line chartId="1" [setIndex]="4" title="Actual vs Budget" [dataSet]="2"
+                    [chartData]="{set1:chartData.netRent.actual,set2:chartData.netRent.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <!-- <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('rental-income/actual-forecast')">See More</div>
+                </div> -->
+                <app-single-bar-line chartId="2" [setIndex]="4" title="Actual vs Forecast" [dataSet]="2"
+                    [chartData]="{set1:chartData.netRent.actual,set2:chartData.netRent.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('rental-income')">See More</div>
+                </div>
+                <app-single-bar-line chartId="3" [setIndex]="4" title="Budget vs Forecast" [dataSet]="2"
+                    [chartData]="{set1:chartData.netRent.budget,set2:chartData.netRent.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <div class="section">
+            Total Other Income
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <!-- <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('other-income/actual-budget')">See More</div>
+                </div> -->
+                <app-single-bar-line chartId="5" [setIndex]="5" title="Actual vs Budget" [dataSet]="3"
+                    [chartData]="{set1:chartData.totalIncome.actual,set2:chartData.totalIncome.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <!-- <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('other-income/actual-forecast')">See More</div>
+                </div> -->
+                <app-single-bar-line chartId="4" [setIndex]="5" title="Actual vs Forecast" [dataSet]="3"
+                    [chartData]="{set1:chartData.totalIncome.actual,set2:chartData.totalIncome.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <div class="expand-chart-btn">
+                    <div class="text" (click)="navigate('other-income')">See More</div>
+                </div>
+                <app-single-bar-line chartId="6" [setIndex]="5" title="Budget vs Forecast" [dataSet]="3"
+                    [chartData]="{set1:chartData.totalIncome.budget,set2:chartData.totalIncome.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <br>
+    </div>
+    <!-- <div class="chart-container" *ngIf="fetchDone">
+        <div class="section">
+            Actual vs Budget
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="1" (click)="navigate('rental-income/actual-budget')" [setIndex]="0" title="Net Rent Collected" [dataSet]="2" [chartData]="{set1:chartData.netRent.actual,set2:chartData.netRent.budget}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="2" (click)="navigate('other-income/actual-budget')" [setIndex]="1" title="Total Other Income" [dataSet]="3" [chartData]="{set1:chartData.totalIncome.actual,set2:chartData.totalIncome.budget}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <div class="section">
+            Actual vs Forecast
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="3" (click)="navigate('rental-income/actual-forecast')" [setIndex]="0" title="Net Rent Collected" [dataSet]="2" [chartData]="{set1:chartData.netRent.actual,set2:chartData.netRent.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="4" (click)="navigate('other-income/budget-forecast')" [setIndex]="1" title="Total Other Income" [dataSet]="3" [chartData]="{set1:chartData.totalIncome.actual,set2:chartData.totalIncome.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <div class="section">
+            Budget vs Forecast
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-single-bar-line chartId="5" (click)="navigate('rental-income/actual-forecast')" [setIndex]="0" title="Net Rent Collected" [dataSet]="2" [chartData]="{set1:chartData.netRent.budget,set2:chartData.netRent.forecast}">
+                </app-single-bar-line>
+            </div>
+            <div class="chart-body">
+                <app-single-bar-line chartId="6" (click)="navigate('other-income/budget-forecast')" [setIndex]="1" title="Total Other Income" [dataSet]="3" [chartData]="{set1:chartData.totalIncome.budget,set2:chartData.totalIncome.forecast}">
+                </app-single-bar-line>
+            </div>
+        </div>
+        <br>
+    </div> -->
+</div>

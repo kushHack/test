@@ -1,0 +1,36 @@
+.neo_imgLoad {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 25%;
+    width: 25%;
+    z-index: 9999999999;
+    stroke-width: 3px;
+    stroke-dasharray: 1376;
+    animation: 2s logoDraw;
+    animation-iteration-count: infinite;
+}
+
+@keyframes logoDraw {
+    0% {
+        stroke-dashoffset: 1376
+    }
+    100% {
+        stroke-dashoffset: 190
+    }
+}
+
+.neoLoader {
+    // background-color: var(--side-nav-color);
+    background-color: #ffffff;
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9999999999;
+}

@@ -1,0 +1,113 @@
+<breadcrum [heading]="heading"></breadcrum>
+<app-form-submit *ngIf="showSubmit" (close)="showSubmit=false" (reponse)="submitOverlayResponse($event)"
+    [workflow]="workflowDetails" [workflowInstance]="workflowData" heading="Rental Income Forecast Summary"
+    [formData]="formData" [keys]="keys" control="rentalIncome"></app-form-submit>
+<div class="no-data-found" *ngIf="!workflowStarted">
+    <a>
+        <a *ngIf="userRole==='RA'">No Workflow on Review Found!</a>
+        <a *ngIf="userRole==='RPM'">Workflow is not Started!</a>
+        <br> Please Start one from Task Queue</a>
+    <br>
+    <div class="button-inside" routerLink="/dashboard/workflow/task-queue">Click Here</div>
+</div>
+<div class="main-container" *ngIf="workflowStarted">
+    <div class="status-container">
+        <a *ngIf="userRole==='RA'">Reviewing for </a>
+        <a *ngIf="userRole==='RPM'">Filling for </a> Community: <b>{{workflowDetails.communityName}}</b> &nbsp; Quarter:
+        <b>{{workflowDetails.quarter |
+            titlecase}}</b> &nbsp; Year: <b>{{workflowDetails.year}}</b>
+        <a *ngIf="userRole==='RA'"> &nbsp; Revenue Inputs: <b *ngIf="revenueInputApproved">APPROVED</b><b
+                *ngIf="!revenueInputApproved">NOT
+                APPROVED</b></a>
+        <a *ngIf="userRole==='RPM'"> &nbsp; Revenue Inputs:
+            <b *ngIf="dataAvailable">SAVED</b><b *ngIf="!dataAvailable">NOT SAVED</b></a>
+    </div>
+    <div class="table-container">
+        <form [formGroup]="revenueForm">
+            <table>
+                <thead>
+                    <tr class="heading-row">
+                        <th class="heading-element parameter">Parameter Type</th>
+                        <ng-container *ngFor="let heading of table.headers">
+                            <th class="heading-element">{{heading}}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let row of table.rows">
+                        <tr class="data-row" [formGroupName]="row.group_name">
+                            <td class="row-element parameter background">{{row.row_name}}
+                                <i *ngIf="row.group_name != 'expirations'" class="bi bi-info-circle info"
+                                    [attr.tool-tip]="'value should be in between ' + row.validation.min + '% - ' + row.validation.max +'%'"></i>
+                                <i *ngIf="row.group_name === 'expirations'" class="bi bi-info-circle info"
+                                    [attr.tool-tip]="row.tip"></i>
+                            </td>
+                            <ng-container *ngFor="let control of table.control_names; let i= index">
+                                <td class="row-element"
+                                    [ngClass]="{'invalid': revenueForm.get(row.group_name)?.get(control).touched && revenueForm.get(row.group_name)?.get(control).invalid}">
+                                    <span class="input-field" [ngClass]="{'grey-border':i<currentMonth-1}"><input
+                                            type="text" [readonly]="i<currentMonth-1"
+                                            (change)="onChangeValue(row.group_name,control,$event)"
+                                            [formControlName]="control">
+                                        <a [ngClass]="{'grey':i<currentMonth-1}"
+                                            *ngIf="row.type==='percent'">%</a></span>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </form>
+        <div class="reminder-email">
+            <!-- <button *ngIf="userRole==='RPM'" (click)="revenueForm.reset()">Reset</button> -->
+            <!-- <button *ngIf="userRole==='RPM'" (click)="fillData()">Fill Data</button> -->
+            <button *ngIf="userRole==='RPM'" (click)="generateRevenueInputNumbers(revenueForm.value)">Generate</button>
+            <!-- <button *ngIf="userRole==='RPM'" (click)="onSubmit({revenueInputs:revenueForm.value})">Save</button> -->
+        </div>
+    </div>
+    <br>
+    <div class="table-container" *ngIf="revenueInputsFetched && otherRevenueInputs">
+        <form [formGroup]="revenueOtherForm">
+            <table>
+                <thead>
+                    <tr class="heading-row">
+                        <th class="heading-element parameter">Parameter Type</th>
+                        <ng-container *ngFor="let heading of table2.headers">
+                            <th class="heading-element">{{heading}}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let row of table2.rows">
+                        <ng-container *ngIf="otherRevenueInputs[row.group_name]">
+                            <tr class="data-row" [formGroupName]="row.group_name">
+                                <td class="row-element parameter background">{{row.row_name}}
+                                    <i class="bi bi-info-circle info" [attr.tool-tip]='row.tip'></i>
+                                </td>
+                                <ng-container *ngFor="let control of table2.control_names; let i= index">
+                                    <td class="row-element"
+                                        [ngClass]="{'invalid': revenueOtherForm.get(row.group_name)?.get(control).touched && revenueOtherForm.get(row.group_name)?.get(control).invalid}">
+                                        <span class="input-field" [ngClass]="{'grey-border':i<currentMonth-1}"><input
+                                                type="text" [readonly]="i<currentMonth-1"
+                                                (change)="onChangeValue(row.group_name,control,$event)"
+                                                [formControlName]="control">
+                                            <a [ngClass]="{'grey':i<currentMonth-1}"
+                                                *ngIf="row.type==='percent'">%</a></span>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </form>
+        <div class="reminder-email">
+            <button class="red" *ngIf="userRole==='RA'" [disabled]="revenueInputApproved"
+                (click)="rejectWorkflow()">Reject</button>
+            <button *ngIf="userRole==='RA'" [disabled]="revenueInputApproved"
+                (click)="showSubmitOverlay()">Approve</button>
+            <button (click)="previewData()">Preview</button>
+            <button *ngIf="userRole==='RPM'" (click)="showSubmitOverlay()">Save</button>
+        </div>
+    </div>
+</div>

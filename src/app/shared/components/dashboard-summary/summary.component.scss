@@ -1,0 +1,50 @@
+.summary-data {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    .block {
+        display: flex;
+        flex-direction: row;
+        .side {
+            width: 10%;
+            border-top-left-radius: 0.75rem;
+            border-bottom-left-radius: 0.75rem;
+        }
+        .main {
+            width: 90%;
+            padding: 0.25rem 0rem 0.25rem 1rem;
+            border-top-right-radius: 0.75rem;
+            border-bottom-right-radius: 0.75rem;
+            border: 2px solid #afafaf;
+            border-left: none;
+            .title {
+                font-size: 16px;
+                font-weight: 500;
+            }
+        }
+        // text-align: center;
+        // border-radius: 1rem;
+        padding: 0.5rem 0rem;
+        font-size: 14px;
+        min-width: 20%;
+    }
+    .number {
+        font-size: 26px;
+    }
+    .budgeted {
+        color: var(--text-white);
+        background-color: #0a4ba7;
+    }
+    .forecast {
+        color: var(--text-white);
+        background-color: #139817;
+    }
+    .variance {
+        color: var(--text-white);
+        background-color: #c52d2d;
+    }
+    .change {
+        color: var(--text-white);
+        background-color: #c0c223;
+    }
+}

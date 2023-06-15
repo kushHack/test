@@ -1,0 +1,75 @@
+.main-container {
+    padding: 3rem;
+    padding-top: 2rem;
+
+    .config-form-container {
+        .form-field {
+            display: flex;
+            width: max-content;
+            flex-direction: row;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e7e7e7;
+
+            .label {
+                width: 13rem;
+            }
+
+            .input-field {
+                width: 2rem;
+                font-size: 14px;
+                border: none;
+                border-radius: 0px;
+                border-bottom: 2px solid var(--input-border-color);
+                padding: 0 0 5px 0;
+                text-align: center;
+                font-weight: 500;
+                background-color: transparent;
+            }
+
+            p {
+                margin: 0px 0.7rem;
+                font-size: 14px;
+            }
+        }
+
+        .invalid {
+
+            label,
+            p {
+                color: var(--text-red);
+            }
+
+            input.ng-touched.ng-invalid {
+                color: var(--text-red);
+                border-color: var(--border-red);
+            }
+        }
+
+        .warning1 {
+            color: var(--text-red);
+            font-size: 12px;
+            margin-left: 2rem;
+        }
+    }
+}
+
+.reminder-email {
+    justify-content: flex-start;
+}
+
+.margin {
+    margin-left: 1.6rem;
+}
+.range-feild {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.6rem;
+}
+
+h4 {
+    margin: 0;
+}

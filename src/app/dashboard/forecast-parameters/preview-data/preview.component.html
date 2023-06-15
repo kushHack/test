@@ -1,0 +1,34 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="toggle-forecast">
+        <div class="back-button">
+            <i class="bi bi-arrow-left-circle" (click)="navigate()"></i>
+        </div>
+        <div class="tab" *ngIf="fetchDone">
+            Community: {{workflowDetails.communityName}}
+            &nbsp; &nbsp;Quarter: {{workflowDetails.quarter | uppercase}}
+            &nbsp; &nbsp;Version: v{{workflowDetails.version}}
+        </div>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <app-summary [title]="summaryTitle" [summary]="summary"></app-summary>
+        Summary Chart for Forecast Change after Inputs.
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-2 chartId="1" [row]="xAxisRow" [chartData]="chartData" (data_output)="onBarClick($event)"
+                    title="Budget vs Forecast: Other Income">
+                </app-bar-line-2>
+            </div>
+        </div>
+        <div class="sub-chart-row" *ngIf="subFetchDone">
+            <app-summary [title]="subSummaryTitle" [summary]="subSummary"></app-summary>
+            Summary Chart for Forecast Change after Inputs.
+            <div class="chart-row sub-row">
+                <div class="chart-body sub-body">
+                    <app-bar-line-chart chartId="2" [setIndex]="3" [title]="subChartTitle" [chartData]="subChartData">
+                    </app-bar-line-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

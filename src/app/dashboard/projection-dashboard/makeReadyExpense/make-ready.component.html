@@ -1,0 +1,52 @@
+<breadcrum [heading]="heading"></breadcrum>
+<div class="main-container">
+    <div class="toggle-forecast">
+        <div class="back-button">
+            <i class="bi bi-arrow-left-circle" (click)="navigate('total-expense')"></i>
+        </div>
+        <div class="tab" (click)="changeDashboadType('combined')" [ngClass]="{'active':dashboardType==='combined'}">
+            Portfolio
+        </div>
+        <div class="tab" (click)="changeDashboadType('individual')" [ngClass]="{'active':dashboardType==='individual'}">
+            Community
+        </div>
+        <select class="tab input-field" (change)="changeForecastYear($event)">
+            <ng-container *ngFor="let year of years; let i=index">
+                <option [value]="year" [selected]="selectedYear === year">{{year}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" *ngIf="dashboardType==='individual'" (change)="changeForecast($event)">
+            <ng-container *ngFor="let community of communities; let i=index">
+                <option [value]="i">{{community.communityName}}</option>
+            </ng-container>
+        </select>
+        <select class="tab input-field" (change)="changeForecastVersion($event)">
+            <ng-container *ngFor="let version of versions">
+                <option [value]="version" [selected]="selectedVersion === version">v{{version}}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="chart-container" *ngIf="fetchDone">
+        <app-summary title="Total Make Ready" [summary]="summary"></app-summary>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="1" [setIndex]="2" [title]="chartTitle+'Carpet Floors'"
+                    [chartData]="chartData.carpetFloors">
+                </app-bar-line-chart>
+            </div>
+            <div class="chart-body">
+                <app-bar-line-chart chartId="2" [setIndex]="2" [title]="chartTitle+'Cleaning General'"
+                    [chartData]="chartData.cleaningGeneral">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <div class="chart-row">
+            <div class="chart-body">
+                <app-bar-line-chart chartId="3" [setIndex]="2" [title]="chartTitle+'Contract Painting'"
+                    [chartData]="chartData.contractPainting">
+                </app-bar-line-chart>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

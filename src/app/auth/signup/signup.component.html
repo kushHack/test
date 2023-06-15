@@ -1,0 +1,44 @@
+<body>
+    <form [formGroup]="signUpForm" (submit)="onSignup(signUpForm.value)">
+        <div class="login-container">
+            <div class="pannel-body">
+
+                <div class="text-center">
+                    <div class="logo-box">
+                        <img src="/assets/img/northland_logo.svg" />
+                    </div>
+                    <h5>Create New Account</h5>
+                </div>
+
+                <div class="field">
+                    <input type="text" class="inputField width100" formControlName="userName" placeholder="Username">
+                </div>
+                <div class="field">
+                    <div>
+                        <!-- <i class="fa fa-user icon" aria-hidden="true"></i> -->
+                    </div>
+                    <input type="text" class="inputField width100" formControlName="email" placeholder="Email">
+                </div>
+                <div class="field">
+                    <div>
+                        <!-- <i class="fa fa-lock icon" aria-hidden="true"></i> -->
+                    </div>
+                    <input type="password" class="inputField width100" formControlName="password"
+                        placeholder="Password">
+                </div>
+                <div class="term_condition">
+                    <input type="checkbox"> I agree to the
+                    <div class="hyperlink">Term and Conditon</div>
+                </div>
+                <div class="button-signin">
+                    <button type="submit"><a>Sign In &nbsp;</a> <i class="bi bi-arrow-right-circle icon2"></i></button>
+                </div>
+                <div class="redirect">
+                    Already a User? &nbsp;
+                    <a class="hyperlink" routerLink="/login">Click Here</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- </div> -->
+</body>

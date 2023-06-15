@@ -1,0 +1,37 @@
+.main-container {
+    padding: 2rem;
+    overflow: hidden;
+    .form-container {
+        form {
+            width: 100%;
+        }
+        .form-wrap{
+            display: flex;
+            flex-direction: row;
+        }
+        .form-field {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 1rem 1.5rem;
+            width: 230px;
+            gap: 0.2rem;
+            height: 6rem;
+            select {
+                font-size: 14px;
+            }
+            .filename {
+                font-size: 14px;
+                height: 1.2rem;
+            }
+        }
+        .file-field {
+            width: 230px;
+            height: 8rem;
+        }
+    }
+    .position-button {
+        width: 95%;
+        margin-top: 1rem;
+    }
+}

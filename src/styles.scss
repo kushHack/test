@@ -1,0 +1,198 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap');
+@import "./assets/styles/form.scss";
+@import "./assets/styles/table.scss";
+@import "./assets/styles/navtab.scss";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0");
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--white);
+    font-family: "Poppins", sans-serif;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --table-header-color: #070C33;
+    --row-selected-color: #ced4ff;
+    --side-nav-color: #070C33;
+    --login-theme-color: #070C33;
+    --breadcrum-text: #ffffff;
+    --header-text-color: #ffffff;
+    --table-border-color: #c7c7c7;
+    --table-text-color: #3b3b3b;
+    --table-invalid-row: #ffb3b3;
+    --input-border-color: #747474;
+    --input-border-hover-color: #555555;
+    --text-black: #000000;
+    --text-white: #ffffff;
+    --text-red: #e62626;
+    --text-green: #27861e;
+    --bg-green: #27861e;
+    --bg-yellow: #FAC858;
+    --button-disabled: #727272;
+    --text-disabled: #929292;
+    --text-blue: #235ad1;
+    --border-black: #000000;
+    --border-red: #e62626;
+    --white: #ffffff;
+    --transparent: #ffffff00;
+    --tooltip-color: #e7e7e7;
+    --alert-green: #27861e;
+    --alert-red: #eb3939;
+    --account-bg-color: #40498f;
+    --table-row-disable: #e0e0e0;
+    --table-row-active: #aae7b3;
+    --charts-bg: #ffffff;
+    --form-section-bg: #c5c5c5;
+    --form-section-hover: #afafaf;
+    --tab-bg: #163d85;
+    --table-bg-red: #ffa9a9;
+    --table-bg-green: #adfc79;
+}
+
+a {
+    text-decoration: none;
+    // color: var(--text-black);
+    &:hover {
+        // color: var(--text-black);
+        text-decoration: none;
+    }
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    outline: none;
+}
+
+.hyperlink {
+    cursor: pointer;
+    color: var(--text-blue);
+}
+
+.green {
+    color: var(--text-green);
+}
+
+.red {
+    color: var(--text-red);
+}
+
+.reminder-email {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    user-select: none;
+    button {
+        cursor: pointer;
+        font-size: 14px;
+        text-transform: capitalize;
+        border: none;
+        color: var(--text-white);
+        background-color: var(--text-green);
+        padding: 5px 8px;
+        border-radius: 0.6rem;
+        &:disabled {
+            background-color: var(--button-disabled);
+        }
+    }
+    .red {
+        background-color: var(--text-red);
+    }
+}
+
+.no-data-found {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    a {
+        font-weight: 500;
+    }
+    .button-inside {
+        cursor: pointer;
+        font-size: 16px;
+        border: none;
+        width: 6rem;
+        align-self: center;
+        border-radius: 10px;
+        padding: 6px;
+        color: var(--text-white);
+        background-color: var(--side-nav-color);
+    }
+}
+
+.toggle-forecast {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    .tab {
+        font-weight: 500;
+        padding: 0.3rem 1rem;
+        cursor: pointer;
+        border-radius: 0.75rem;
+        border: 2px solid var(--table-border-color);
+        background-color: #ffffff;
+    }
+    .back-button{
+        font-size: 32px;
+        margin-bottom: -20px;
+        margin-top: -5px;
+        margin-right: -10px;
+        i{
+            cursor: pointer;
+            color: #585858;
+            &:hover{
+                color: #727272;
+            }
+        }
+    }
+    .input-field {
+        padding: 0.4rem 1rem;
+        text-transform: none;
+        font-size: 16px;
+    }
+    .active {
+        background-color: var(--tab-bg);
+        color: var(--text-white);
+        border: 2px solid var(--tab-bg)
+    }
+}
+
+button {
+    cursor: pointer;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;
+    background-color: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(116, 116, 116);
+    &:hover {
+        background-color: rgb(85, 85, 85);
+    }
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--white);
+}

@@ -1,0 +1,80 @@
+.main-container {
+    padding: 3rem;
+    padding-top: 2rem;
+
+    .community-wrapper {
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+
+            .button {
+                padding: 0.3rem 0.75rem;
+                color: var(--text-white);
+                background-color: var(--side-nav-color);
+                border-radius: 0.4rem;
+                margin-bottom: 1rem;
+                cursor: pointer;
+            }
+        }
+
+        .community-not-found {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .table-container {
+            width: 100%;
+        }
+
+        .icon {
+            font-size: 12px;
+            margin-right: 0.25rem;
+        }
+
+        .row-element {
+            padding: 0.25rem 0rem 0.25rem 0.6rem;
+            text-align: left;
+        }
+
+        .button-edit {
+            div {
+                cursor: pointer;
+                color: var(--text-blue);
+
+                .edit-logo:after {
+                    content: '\f044';
+                    font-family: fontAwesome;
+                    font-size: 20px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .center {
+            padding: 0.25rem 0;
+            text-align: center;
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            gap: 0.75rem;
+            width: 18rem;
+
+            .input-field {
+                width: 90%;
+                background-color: transparent;
+            }
+
+            .search {
+                font-size: 20px;
+                color: var(--side-nav-color);
+                -webkit-text-stroke: 0.8px var(--side-nav-color)
+            }
+        }
+    }
+}

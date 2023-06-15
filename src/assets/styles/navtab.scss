@@ -1,0 +1,34 @@
+.nav-tab-main {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    display: block;
+    .nav-tab-inner {
+        text-transform: uppercase;
+        // margin-top: 10px;
+        display: flex;
+        margin: -7px;
+        .nav-tab-text {
+            width: 14rem;
+            color: #7c7c7c;
+            text-align: center;
+            padding: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+        .active {
+            color: var(--text-black);
+            font-weight: 600;
+            border: 2px solid #ddd;
+            border-bottom-color: transparent;
+            border-top: 3px solid #141e3d;
+            background-color: #fff;
+            font-size: 14px;
+            border-bottom-color: transparent;
+            cursor: default;
+        }
+    }
+}
